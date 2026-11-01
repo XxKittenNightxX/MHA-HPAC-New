@@ -1,0 +1,123 @@
+[
+  {
+    "registryName": "Selene Moonshadow",
+    "legalName": "Selene Moonshadow",
+    "quirkName": "Objective Oracle",
+    "quirkType": "Emitter",
+    "quirkDescription": "The user manifests an \"Objective Oracle,\" a mental voice that provides strategic guidance. When the user sets a specific goal and identifies a target, the Oracle offers the most effective path to achieve that objective. The Oracle's knowledge isn't universal, but it's omniscient within the context of the user's goals, delivering detailed insights and strategic advice.",
+    "portrait": "data/img/SeleneMoonshadow.png",
+    "Birthdate": "11-14",
+    "BloodType": "A-",
+    "Role": "Civilian"
+  },
+  {
+    "registryName": "Akari Datenshi",
+    "legalName": "Akari Datenshi",
+    "quirkName": "Quirkless",
+    "quirkType": "N/A",
+    "quirkDescription": "N/A",
+    "portrait": "data/img/AkariDatenshi.png",
+    "Birthdate": "10-14",
+    "BloodType": "B+",
+    "Role": "Civilian"
+  },
+  {
+    "registryName": "Eva Yaoyorozu",
+    "legalName": "Eva Yaoyorozu",
+    "quirkName": "OmiArm",
+    "quirkType": "Emitter",
+    "quirkDescription": "can manipulate her the robotic part of her body and can manipulate it to form to whatever she can think of (Needs to be studied more)",
+    "portrait": "data/img/EvaYaoyorozu.webp",
+    "Birthdate": "11-04",
+    "BloodType": "B-",
+    "Role": "U-A: hero student"
+  },
+  {
+    "registryName": "White Usagiyama",
+    "legalName": "White Usagiyama",
+    "quirkName": "Rabbit",
+    "quirkType": "Mutation",
+    "quirkDescription": "Quirk gives her the attributes and abilities of a rabbit. This grants her incredible leg strength, allowing her to jump and kick with extreme force; she can even destroy large chunks of the ground by thumping her foot. She also has excellent hearing thanks to her rabbit-like ears and possesses animal instincts that alert her to nearby danger.",
+    "portrait": "data/img/WhiteUsagiyama.jpg",
+    "Birthdate": "12-13",
+    "BloodType": "O+",
+    "Role": "U-A: hero student"
+  },
+  {
+    "registryName": "Saburo ██████",
+    "legalName": "Saburo ██████",
+    "quirkName": "Shadow Synthesis",
+    "quirkType": "Emitter",
+    "quirkDescription": "The individual's Quirk grants the capacity for shadow manipulation, allowing for the dynamic control of darkness within their environment. Concurrently, a significant enhancement in cognitive processing is observed, suggesting a direct link between the Quirk's function and heightened intellectual capabilities.",
+    "portrait": "data/img/Saburo██████.png",
+    "Birthdate": "05-21",
+    "BloodType": "O-",
+    "Role": "U-A: hero student"
+  },
+  {
+    "registryName": "Futaki Noboru",
+    "legalName": "Futaki Noboru",
+    "quirkName": "Woodland Weave",
+    "quirkType": "Emitter",
+    "quirkDescription": "The user can rapidly accelerate, shape, and manipulate the growth of vines, roots, and thorny plant matter from any organic surface or soil within their line of sight. By motioning with their hands, the user \"weaves\" these plants into dense, high-tensile structures that serve both top-tier offensive and defensive functions.",
+    "portrait": "data/img/FutakiNoboru.png",
+    "Birthdate": "11-05",
+    "BloodType": "B+",
+    "Role": "Hero Commission Scout"
+  },
+  {
+    "registryName": "Red Miller",
+    "legalName": "Red Miller",
+    "quirkName": "Presence Bleed",
+    "quirkType": "Emitter",
+    "quirkDescription": "The Quirk allows the user to completely erase their presence from the perception of living beings and technological sensors. It goes beyond simple invisibility by actively suppressing the concepts of sound, scent, thermal radiation, and psychological awareness.",
+    "portrait": "data/img/RedMiller.webp",
+    "Birthdate": "02-01",
+    "BloodType": "B+",
+    "Role": "Chimara Project Director"
+  },
+  {
+    "registryName": "Mia Inferno",
+    "legalName": "Mia Inferno",
+    "quirkName": "Infernal Energy",
+    "quirkType": "Emitter / Mutation",
+    "quirkDescription": "This Quirk grants fire-based abilities fueled by \"Infernal Energy.\" Increased energy use intensifies flames, causing a physical transformation into a demonic form with enhanced aggression. Once energy output lessens, the transformation and aggressive traits subside.",
+    "portrait": "data/img/MiaInferno.webp",
+    "Birthdate": "06-09",
+    "BloodType": "B+",
+    "Role": "Villian"
+  },
+  {
+    "registryName": "Rhianna Blackburn",
+    "legalName": "Rhianna Blackburn",
+    "quirkName": "Short-Range Teleportation",
+    "quirkType": "Emitter",
+    "quirkDescription": "Instantaneous spatial displacement allowing teleportation to any visible location within approximately 10 meters. Requires line of sight and brief concentration.",
+    "portrait": "data/img/RhiannaBlackburn.png",
+    "Birthdate": "09-14",
+    "BloodType": "AB",
+    "Role": "ChimaraProject: Head Quirk Specialist"
+  },
+  {
+    "registryName": "Kenji Masquerade",
+    "legalName": "Kenji Masquerade",
+    "quirkName": "Mask",
+    "quirkType": "Emitter",
+    "quirkDescription": "Can create masks of any shape and size. Anyone wearing the created masks falls under the user's control, acting as puppets to the user's will.",
+    "portrait": "data/img/KenjiMasquerade.png",
+    "Birthdate": "09-09",
+    "BloodType": "AB",
+    "Role": "Civilian: Watch-List"
+  },
+  {
+    "registryName": "Melody Foxglove",
+    "legalName": "Melody Foxglove",
+    "quirkName": "Foxfire ",
+    "quirkType": "Emitter / Mutation",
+    "quirkDescription": "Foxfire is a mutation-type Quirk that grants the user fox ears, a tail, sharp close-range claws, and enhanced speed and agility, making them exceptionally difficult to capture in combat. Beyond these physical traits, the ability allows the user to manipulate fire for offensive pressure and generate minor illusions designed for tactical misdirection, feints, and quick escapes.",
+    "portrait": "data/img/MelodyFoxglove.png",
+    "Birthdate": "09-28",
+    "BloodType": "B",
+    "Role": "Villian"
+  }
+]

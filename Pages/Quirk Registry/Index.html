@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a36">
+  <title>Quirk Registry | Hero Public Safety Commission</title>
+  <style>
+    :root { color-scheme: light; --ink: #17313c; --muted: #65777d; --navy: #102a36; --teal: #087c78; --gold: #d7a84c; --paper: #f7f8f5; --line: #e3e9e6; --white: #fff; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; display: grid; grid-template-rows: 5px auto 1fr auto; margin: 0; color: var(--ink); background: var(--paper); line-height: 1.6; }
+    .topline { background: var(--gold); }
+    header { min-height: 76px; padding: 0 max(24px, calc((100% - 1040px) / 2)); display: flex; align-items: center; color: var(--white); background: var(--navy); }
+    header a { color: inherit; text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    main { width: min(1180px, calc(100% - 40px)); align-self: center; justify-self: center; margin: 46px auto 58px; }
+    .eyebrow { margin: 0 0 8px; color: var(--teal); font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(36px, 6vw, 52px); font-weight: 400; letter-spacing: -.03em; line-height: 1.15; }
+    .registry-intro { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 29px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .lead { max-width: 630px; margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+    .record-count { margin: 0 0 4px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 3px; color: var(--muted); background: var(--white); font-size: 11px; white-space: nowrap; }
+    .record-count strong { color: var(--teal); font-size: 13px; }
+    .character-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 310px), 1fr)); align-items: start; gap: 20px; }
+    .character-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--white);
+      box-shadow: 0 5px 18px rgb(21 48 57 / 5%);
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .character-card:hover { transform: translateY(-4px); border-color: #c6d6d1; box-shadow: 0 15px 32px rgb(21 48 57 / 12%); }
+    .character-card:focus-visible { outline: 3px solid #d7a84c; outline-offset: 3px; }
+    .portrait-wrap { position: relative; height: 270px; overflow: hidden; background: linear-gradient(145deg, #dce8e2, #edf0e9); }
+    .portrait { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center 27%; transition: transform .35s ease; }
+    .character-card:hover .portrait { transform: scale(1.035); }
+    .portrait-wrap::after { position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgb(9 29 36 / 45%)); content: ""; pointer-events: none; }
+    .portrait-placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: #80928c;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 68px;
+    }
+    .character-info { min-width: 0; padding: 19px 19px 18px; }
+    .character-label { margin: 0 0 5px; color: var(--teal); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .record-warnings { position: absolute; z-index: 2; right: 12px; bottom: 12px; left: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .record-warning { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid; border-radius: 3px; box-shadow: 0 2px 8px rgb(0 0 0 / 15%); font-size: 8px; font-weight: 750; letter-spacing: .07em; line-height: 1.2; text-transform: uppercase; }
+    .record-warning::before { width: 13px; height: 13px; flex: 0 0 13px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; content: "!"; font-size: 9px; line-height: 1; }
+    .record-warning--villain { border-color: #f0c5c0; color: #fff; background: #982f2b; }
+    .record-warning--watch-list { border-color: #f2dfae; color: #392b08; background: #f1cf70; }
+    .character-name { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 24px; font-weight: 400; letter-spacing: -.02em; line-height: 1.2; overflow-wrap: anywhere; }
+    .legal-name { margin: 5px 0 16px; color: var(--muted); font-size: 11px; }
+    .character-fields { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(75px, .65fr); gap: 11px 14px; margin: 0; }
+    .character-fields div { min-width: 0; padding-top: 9px; border-top: 1px solid #edf0ed; }
+    .character-fields dt { color: #76858a; font-size: 8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .character-fields dd { margin: 3px 0 0; color: var(--ink); font-size: 12px; font-weight: 650; overflow-wrap: anywhere; }
+    .quirk-pill { display: inline-block; padding: 3px 8px; border: 1px solid #cce2dc; border-radius: 2px; color: #086c68; background: #edf6f3; font-size: 9px; font-weight: 700; }
+    .profile-meta { display: flex; gap: 8px; margin-top: 13px; }
+    .meta-chip { flex: 1; min-width: 0; padding: 7px 8px; border-radius: 3px; color: var(--muted); background: #f4f6f3; font-size: 9px; }
+    .meta-chip strong { display: block; margin-bottom: 1px; color: #77868a; font-size: 7px; letter-spacing: .09em; text-transform: uppercase; }
+    .quirk-description { margin: 13px 0 0; padding-top: 11px; border-top: 1px solid #edf0ed; color: var(--muted); font-size: 11px; line-height: 1.65; }
+    .quirk-description summary { color: var(--teal); cursor: pointer; font-size: 10px; font-weight: 700; }
+    .quirk-description p { margin: 8px 0 0; }
+    .profile-hint { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 15px 0 0; padding-top: 10px; border-top: 1px solid #edf0ed; color: var(--teal); font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .profile-hint span:last-child { font-size: 15px; transition: transform .18s ease; }
+    .character-card:hover .profile-hint span:last-child { transform: translateX(3px); }
+    .profile-dialog { width: min(700px, calc(100% - 30px)); max-height: min(780px, calc(100% - 30px)); padding: 0; overflow: auto; border: 1px solid #cad6d2; border-radius: 7px; color: var(--ink); background: var(--paper); box-shadow: 0 24px 80px rgb(0 0 0 / 35%); }
+    .profile-dialog::backdrop { background: rgb(8 25 32 / 72%); backdrop-filter: blur(3px); }
+    .dialog-topline { height: 5px; background: var(--gold); }
+    .dialog-content { padding: 24px; }
+    .dialog-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+    .dialog-header .character-label { margin-bottom: 6px; }
+    .dialog-header h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(26px, 5vw, 36px); font-weight: 400; line-height: 1.15; overflow-wrap: anywhere; }
+    .dialog-close { width: 36px; height: 36px; flex: 0 0 36px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: var(--white); cursor: pointer; font-size: 20px; line-height: 1; }
+    .dialog-close:hover { color: #962e2b; border-color: #e2b9b5; }
+    .dialog-body { display: grid; grid-template-columns: minmax(180px, .75fr) minmax(0, 1fr); gap: 22px; }
+    .dialog-portrait-wrap { position: relative; min-height: 300px; overflow: hidden; border-radius: 4px; background: linear-gradient(145deg, #dce8e2, #edf0e9); }
+    .dialog-portrait { width: 100%; height: 100%; min-height: 300px; display: block; object-fit: cover; object-position: center 25%; }
+    .dialog-portrait-placeholder { min-height: 300px; display: grid; place-items: center; color: #80928c; font-family: Georgia, "Times New Roman", serif; font-size: 68px; }
+    .dialog-record { min-width: 0; padding: 19px; border: 1px solid var(--line); border-radius: 4px; background: var(--white); }
+    .dialog-legal-name { margin: 0 0 18px; color: var(--muted); font-size: 12px; }
+    .dialog-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px 15px; margin: 0; }
+    .dialog-fields div { min-width: 0; padding-top: 9px; border-top: 1px solid #edf0ed; }
+    .dialog-fields dt { color: #76858a; font-size: 8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+    .dialog-fields dd { margin: 4px 0 0; color: var(--ink); font-size: 12px; font-weight: 650; overflow-wrap: anywhere; }
+    .dialog-assessment { margin: 19px 0 0; padding-top: 15px; border-top: 1px solid var(--line); }
+    .dialog-assessment h3 { margin: 0 0 7px; color: var(--teal); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+    .dialog-assessment p { margin: 0; color: #53676d; font-size: 12px; line-height: 1.7; white-space: pre-line; }
+    .dialog-warnings { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 15px; }
+    .dialog-warnings:empty { display: none; }
+    .dialog-warnings .record-warning { box-shadow: none; }
+    .dialog-notes { margin-top: 19px; padding-top: 15px; border-top: 1px solid var(--line); }
+    .dialog-notes h3 { margin: 0 0 10px; color: var(--teal); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+    .notes-form { display: grid; gap: 8px; }
+    .notes-label { color: #53676d; font-size: 10px; font-weight: 650; }
+    .notes-input { width: 100%; min-height: 82px; resize: vertical; padding: 9px 10px; border: 1px solid #d5dfdc; border-radius: 3px; color: var(--ink); background: #fff; font: inherit; font-size: 11px; }
+    .notes-input:focus-visible, .notes-submit:focus-visible, .dialog-close:focus-visible { outline: 3px solid #d7a84c; outline-offset: 2px; }
+    .notes-submit { justify-self: end; padding: 8px 13px; border: 0; border-radius: 3px; color: var(--white); background: var(--teal); cursor: pointer; font-size: 10px; font-weight: 700; }
+    .notes-submit:hover { background: #076a66; }
+    .notes-status { min-height: 16px; margin: 7px 0 0; color: var(--muted); font-size: 10px; }
+    .notes-status--error { color: #963c35; }
+    .notes-list { display: grid; gap: 8px; margin: 11px 0 0; padding: 0; list-style: none; }
+    .note-item { padding: 9px 10px; border-left: 2px solid #c8dcd5; background: #f4f6f3; }
+    .note-item time { display: block; margin-bottom: 4px; color: #77868a; font-size: 8px; }
+    .note-item p { margin: 0; color: #344b53; font-size: 11px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .notes-empty { margin: 11px 0 0; color: var(--muted); font-size: 10px; }
+    @media (max-width: 540px) {
+      .dialog-content { padding: 18px; }
+      .dialog-body { grid-template-columns: 1fr; gap: 14px; }
+      .dialog-portrait-wrap { min-height: 220px; max-height: 300px; }
+      .dialog-portrait { min-height: 220px; }
+      .dialog-portrait-placeholder { min-height: 220px; }
+    }
+    .registry-message { padding: 32px 20px; border: 1px dashed #cbd7d4; border-radius: 5px; color: var(--muted); text-align: center; }
+    .registry-message[hidden] { display: none; }
+    .registry-message strong { display: block; margin-bottom: 4px; color: var(--ink); }
+    .registry-error { color: #963c35; background: #fff7f5; border-color: #e8c9c4; }
+    .back { display: inline-block; margin-top: 22px; color: var(--teal); font-size: 12px; text-decoration: none; }
+    .back:hover { text-decoration: underline; }
+    footer { padding: 17px 24px; color: #c4d0d1; background: #0c222c; font-size: 10px; text-align: center; }
+    @media (max-width: 540px) {
+      main { width: min(100% - 30px, 430px); margin-top: 34px; }
+      .registry-intro { align-items: flex-start; flex-direction: column; gap: 12px; }
+      .record-count { margin: 0; }
+      .portrait-wrap { height: 245px; }
+      .character-info { padding: 17px 16px; }
+      .character-name { font-size: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+  <header><a href="../../Index.html">Hero Public Safety Commission</a></header>
+  <main>
+    <div class="registry-intro">
+      <div>
+        <p class="eyebrow">Hero Public Safety Commission</p>
+        <h1>Quirk Registry</h1>
+        <p class="lead">Commission personnel, registered quirks, and classifications.</p>
+      </div>
+      <p class="record-count" id="record-count" aria-live="polite"></p>
+    </div>
+    <section class="character-list" id="character-list" aria-label="Personnel records" aria-live="polite"></section>
+    <p class="registry-message" id="registry-message"><strong>Loading registry</strong>Personnel records are being loaded.</p>
+    <a class="back" href="../../Index.html">&larr; Return to active projects</a>
+  </main>
+  <footer>&copy; 20XX Hero Public Safety Commission</footer>
+  <dialog class="profile-dialog" id="profile-dialog" aria-labelledby="dialog-name">
+    <div class="dialog-topline"></div>
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <div>
+          <p class="character-label">Hero Public Safety Commission · personnel file</p>
+          <h2 id="dialog-name"></h2>
+        </div>
+        <button class="dialog-close" type="button" aria-label="Close personnel file">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <div class="dialog-portrait-wrap" id="dialog-portrait-wrap"></div>
+        <section class="dialog-record" aria-label="Personnel details">
+          <div class="dialog-warnings" id="dialog-warnings"></div>
+          <p class="dialog-legal-name" id="dialog-legal-name"></p>
+          <dl class="dialog-fields" id="dialog-fields"></dl>
+          <section class="dialog-assessment" id="dialog-assessment">
+            <h3>Quirk assessment</h3>
+            <p id="dialog-description"></p>
+          </section>
+          <section class="dialog-notes" aria-labelledby="notes-heading">
+            <h3 id="notes-heading">Personnel notes</h3>
+            <form class="notes-form" id="notes-form">
+              <label class="notes-label" for="notes-input">Add a note to this file</label>
+              <textarea class="notes-input" id="notes-input" maxlength="2000" placeholder="Enter a note..." required></textarea>
+              <button class="notes-submit" type="submit">Save note</button>
+            </form>
+            <p class="notes-status" id="notes-status" role="status" aria-live="polite"></p>
+            <ol class="notes-list" id="notes-list" aria-label="Saved personnel notes"></ol>
+          </section>
+        </section>
+      </div>
+    </div>
+  </dialog>
+  <script>
+    const characterList = document.querySelector("#character-list");
+    const registryMessage = document.querySelector("#registry-message");
+    const recordCount = document.querySelector("#record-count");
+    const profileDialog = document.querySelector("#profile-dialog");
+    const notesStorageKey = "hpsc-quirk-registry-notes-v1";
+    let activeProfileId = null;
+
+    function readSavedNotes() {
+      const saved = localStorage.getItem(notesStorageKey);
+      if (!saved) return {};
+
+      const parsed = JSON.parse(saved);
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new Error("Saved notes have an invalid format.");
+      }
+      return parsed;
+    }
+
+    function setNotesStatus(message, isError = false) {
+      const status = document.querySelector("#notes-status");
+      status.textContent = message;
+      status.classList.toggle("notes-status--error", isError);
+    }
+
+    function renderSavedNotes(profileId) {
+      const list = document.querySelector("#notes-list");
+      list.replaceChildren();
+
+      try {
+        const savedNotes = readSavedNotes();
+        const notes = savedNotes[profileId] || [];
+        if (!Array.isArray(notes)) {
+          throw new Error("Saved notes for this profile have an invalid format.");
+        }
+
+        if (notes.length === 0) {
+          const empty = document.createElement("li");
+          empty.className = "notes-empty";
+          empty.textContent = "No notes have been added to this file.";
+          list.append(empty);
+          return;
+        }
+
+        notes.forEach((note) => {
+          if (!note || typeof note.text !== "string" || typeof note.createdAt !== "string") {
+            throw new Error("A saved note has an invalid format.");
+          }
+          const item = document.createElement("li");
+          item.className = "note-item";
+          const timestamp = document.createElement("time");
+          const date = new Date(note.createdAt);
+          timestamp.dateTime = note.createdAt;
+          timestamp.textContent = Number.isNaN(date.getTime()) ? "Date unavailable" : date.toLocaleString();
+          const text = document.createElement("p");
+          text.textContent = note.text;
+          item.append(timestamp, text);
+          list.append(item);
+        });
+      } catch (error) {
+        console.error("Could not read saved personnel notes:", error);
+        setNotesStatus("Could not read saved notes in this browser.", true);
+      }
+    }
+
+    function appendDialogField(fields, label, value) {
+      if (typeof value !== "string" || !value.trim()) return;
+      const wrapper = document.createElement("div");
+      const term = document.createElement("dt");
+      const description = document.createElement("dd");
+      term.textContent = label;
+      description.textContent = value.trim();
+      wrapper.append(term, description);
+      fields.append(wrapper);
+    }
+
+    function openProfile(character) {
+      activeProfileId = character.registryName;
+      document.querySelector("#dialog-name").textContent = character.registryName;
+      document.querySelector("#dialog-legal-name").textContent = `Legal name: ${character.legalName}`;
+
+      const portraitWrap = document.querySelector("#dialog-portrait-wrap");
+      portraitWrap.replaceChildren();
+      if (typeof character.portrait === "string" && character.portrait.trim()) {
+        const image = document.createElement("img");
+        image.className = "dialog-portrait";
+        image.src = character.portrait;
+        image.alt = `Portrait of ${character.registryName}`;
+        image.addEventListener("error", () => {
+          const placeholder = document.createElement("div");
+          placeholder.className = "dialog-portrait-placeholder";
+          placeholder.textContent = character.registryName.charAt(0).toUpperCase();
+          image.replaceWith(placeholder);
+        }, { once: true });
+        portraitWrap.append(image);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "dialog-portrait-placeholder";
+        placeholder.textContent = character.registryName.charAt(0).toUpperCase();
+        portraitWrap.append(placeholder);
+      }
+
+      const fields = document.querySelector("#dialog-fields");
+      fields.replaceChildren();
+      appendDialogField(fields, "Quirk", character.quirkName);
+      appendDialogField(fields, "Type", character.quirkType);
+      appendDialogField(fields, "Date of birth", character.Birthdate);
+      appendDialogField(fields, "Blood type", character.BloodType);
+
+      const warnings = document.querySelector("#dialog-warnings");
+      warnings.replaceChildren();
+      const role = typeof character.Role === "string" ? character.Role : "";
+      const normalizedRole = role.toLowerCase();
+      const isVillain = normalizedRole.includes("villain") || normalizedRole.includes("villian");
+      const isWatchListed = /watch[\s-]*list/.test(normalizedRole);
+      if (isVillain || isWatchListed) {
+        const warning = document.createElement("span");
+        warning.className = `record-warning ${isVillain ? "record-warning--villain" : "record-warning--watch-list"}`;
+        warning.textContent = isVillain ? "Villain alert" : "Watch-list warning";
+        warnings.append(warning);
+      }
+
+      const description = typeof character.quirkDescription === "string" ? character.quirkDescription.trim() : "";
+      document.querySelector("#dialog-description").textContent = description || "No assessment is currently available.";
+      document.querySelector("#notes-input").value = "";
+      setNotesStatus("");
+      renderSavedNotes(activeProfileId);
+      profileDialog.showModal();
+    }
+
+    function addField(fields, label, value) {
+      const wrapper = document.createElement("div");
+      const term = document.createElement("dt");
+      const description = document.createElement("dd");
+      term.textContent = label;
+      description.textContent = value;
+      wrapper.append(term, description);
+      fields.append(wrapper);
+    }
+
+    function renderCharacter(character) {
+      const card = document.createElement("article");
+      card.className = "character-card";
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-haspopup", "dialog");
+      card.setAttribute("aria-label", `Open personnel file for ${character.registryName}`);
+      card.addEventListener("click", () => openProfile(character));
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openProfile(character);
+        }
+      });
+
+      const portraitWrap = document.createElement("div");
+      portraitWrap.className = "portrait-wrap";
+      if (typeof character.portrait === "string" && character.portrait.trim()) {
+        const image = document.createElement("img");
+        image.className = "portrait";
+        image.src = character.portrait;
+        image.alt = `Portrait of ${character.registryName}`;
+        image.addEventListener("error", () => {
+          const placeholder = document.createElement("div");
+          placeholder.className = "portrait-placeholder";
+          placeholder.setAttribute("aria-label", "Portrait unavailable");
+          placeholder.textContent = character.registryName.charAt(0).toUpperCase();
+          image.replaceWith(placeholder);
+        }, { once: true });
+        portraitWrap.append(image);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "portrait-placeholder";
+        placeholder.setAttribute("aria-label", "No portrait provided");
+        placeholder.textContent = character.registryName.charAt(0).toUpperCase();
+        portraitWrap.append(placeholder);
+      }
+
+      const info = document.createElement("div");
+      info.className = "character-info";
+      const roleText = typeof character.Role === "string" ? character.Role : "";
+      const normalizedRole = roleText.toLowerCase();
+      const isVillain = normalizedRole.includes("villain") || normalizedRole.includes("villian");
+      const isWatchListed = /watch[\s-]*list/.test(normalizedRole);
+
+      function addRoleWarning(title, styleClass) {
+        let warningContainer = portraitWrap.querySelector(".record-warnings");
+        if (!warningContainer) {
+          warningContainer = document.createElement("div");
+          warningContainer.className = "record-warnings";
+          portraitWrap.append(warningContainer);
+        }
+        const warning = document.createElement("div");
+        warning.className = `record-warning ${styleClass}`;
+        warning.textContent = title;
+        warningContainer.append(warning);
+      }
+      if (isVillain) addRoleWarning("Villain alert", "record-warning--villain");
+      if (isWatchListed) addRoleWarning("Watch-list warning", "record-warning--watch-list");
+
+      const label = document.createElement("p");
+      label.className = "character-label";
+      label.textContent = "Commission record";
+      const name = document.createElement("h2");
+      name.className = "character-name";
+      name.textContent = character.registryName;
+      const legalName = document.createElement("p");
+      legalName.className = "legal-name";
+      legalName.textContent = character.legalName;
+      const fields = document.createElement("dl");
+      fields.className = "character-fields";
+      addField(fields, "Quirk", character.quirkName);
+      const typeWrapper = document.createElement("div");
+      const typeTerm = document.createElement("dt");
+      const typeDescription = document.createElement("dd");
+      const typeBadge = document.createElement("span");
+      typeTerm.textContent = "Type";
+      typeBadge.className = "quirk-pill";
+      typeBadge.textContent = character.quirkType;
+      typeDescription.append(typeBadge);
+      typeWrapper.append(typeTerm, typeDescription);
+      fields.append(typeWrapper);
+      info.append(label, name, legalName, fields);
+
+      const profileMeta = document.createElement("div");
+      profileMeta.className = "profile-meta";
+      if (character.Birthdate) {
+        const birthdate = document.createElement("span");
+        birthdate.className = "meta-chip";
+        const birthdateLabel = document.createElement("strong");
+        birthdateLabel.textContent = "Date of birth";
+        birthdate.append(birthdateLabel, document.createTextNode(character.Birthdate));
+        profileMeta.append(birthdate);
+      }
+      if (character.BloodType) {
+        const bloodType = document.createElement("span");
+        bloodType.className = "meta-chip";
+        const bloodTypeLabel = document.createElement("strong");
+        bloodTypeLabel.textContent = "Blood type";
+        bloodType.append(bloodTypeLabel, document.createTextNode(character.BloodType));
+        profileMeta.append(bloodType);
+      }
+      if (profileMeta.childElementCount) info.append(profileMeta);
+
+      const profileHint = document.createElement("p");
+      profileHint.className = "profile-hint";
+      profileHint.innerHTML = "<span>Open personnel file</span><span aria-hidden=\"true\">&rarr;</span>";
+      info.append(profileHint);
+
+      card.append(portraitWrap, info);
+      characterList.append(card);
+    }
+
+    document.querySelector(".dialog-close").addEventListener("click", () => profileDialog.close());
+    document.querySelector("#notes-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = document.querySelector("#notes-input");
+      const noteText = input.value.trim();
+      if (!activeProfileId || !noteText) {
+        setNotesStatus("Enter a note before saving.", true);
+        return;
+      }
+
+      try {
+        const savedNotes = readSavedNotes();
+        const profileNotes = savedNotes[activeProfileId] || [];
+        if (!Array.isArray(profileNotes)) {
+          throw new Error("Saved notes for this profile have an invalid format.");
+        }
+        profileNotes.push({ text: noteText, createdAt: new Date().toISOString() });
+        savedNotes[activeProfileId] = profileNotes;
+        localStorage.setItem(notesStorageKey, JSON.stringify(savedNotes));
+        input.value = "";
+        setNotesStatus("Note saved in this browser.");
+        renderSavedNotes(activeProfileId);
+      } catch (error) {
+        console.error("Could not save personnel note:", error);
+        setNotesStatus("Could not save this note in the browser. Check available storage and try again.", true);
+      }
+    });
+    profileDialog.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        profileDialog.close();
+      }
+    });
+    profileDialog.addEventListener("click", (event) => {
+      if (event.target === profileDialog) profileDialog.close();
+    });
+
+    async function loadRegistry() {
+      try {
+        const response = await fetch("data/json/quirk-registry.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Registry request failed with status ${response.status}.`);
+        }
+
+        const characters = await response.json();
+        if (!Array.isArray(characters)) {
+          throw new Error("Registry data must be a JSON array.");
+        }
+        if (!characters.every((character) =>
+          character &&
+          ["registryName", "legalName", "quirkName", "quirkType"].every((field) =>
+            typeof character[field] === "string" && character[field].trim()
+          )
+        )) {
+          throw new Error("Every registry entry needs a registry name, legal name, quirk name, and quirk type.");
+        }
+
+        if (characters.length === 0) {
+          registryMessage.innerHTML = "<strong>No registry entries yet</strong>Add a personnel record to the registry data file to see it here.";
+          return;
+        }
+
+        characters.forEach(renderCharacter);
+        recordCount.innerHTML = `<strong>${characters.length}</strong> ${characters.length === 1 ? "registered individual" : "registered individuals"}`;
+        registryMessage.hidden = true;
+      } catch (error) {
+        console.error("Could not load the Quirk Registry:", error);
+        registryMessage.classList.add("registry-error");
+        registryMessage.innerHTML = "<strong>Registry unavailable</strong>Could not load personnel records. Open this page through the local web server and check the registry JSON file.";
+      }
+    }
+
+    loadRegistry();
+  </script>
+</body>
+</html>
